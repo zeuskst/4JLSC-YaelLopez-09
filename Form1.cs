@@ -21,66 +21,112 @@ namespace _4JLSC_YaelLopez_09
         {
 
         }
-
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            string nombre = "";
-            string apellidos = "";
-            string telefono = "";
-            float estatura= 0;
-            int edad = 0;
-            string genero = "";
-            if(Validaciones.EntradaValida(txtNombre.Text)) nombre = txtNombre.Text;
-            else
+            try
             {
-                MessageBox.Show("Nombre invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if(Validaciones.EntradaValida(txtApellidos.Text)) apellidos = txtApellidos.Text;
-            else
-            {
-                MessageBox.Show("Apellidos invalidos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if(Validaciones.ValidarTelefono(txtTelefono.Text)) telefono = txtTelefono.Text;
-            else
-            {
-                MessageBox.Show("Telefono invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if(Validaciones.EsFlotanteValido(txtEstatura.Text)) estatura = float.Parse(txtEstatura.Text);
-            else
-            {
-                MessageBox.Show("Estatura invalida", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if(Validaciones.EsEnteroValido(txtEdad.Text)) edad = int.Parse(txtEdad.Text);
-            else
-            {
-                MessageBox.Show("Edad invalida", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                
+                Validaciones.EntradaValida(txtNombre.Text, "Nombre");
+                string nombre = txtNombre.Text;
 
-            if (rbMasculino.Checked)
-            {
-                genero = "Masculino";
-            }
-            else if (rbFemenino.Checked)
-            {
-                genero = "Femenino";
-            }
-            else
-            {
-                MessageBox.Show("Debe seleccionar un genero", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            conexion conexion = new conexion();
-            bool logrado=conexion.Insertar(nombre, apellidos, telefono, estatura, edad, genero);
-            if (logrado)
-            {
-                MessageBox.Show("Registro guardado con exito", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                Validaciones.EntradaValida(txtApellidos.Text, "Apellidos");
+                string apellidos = txtApellidos.Text;
 
+                Validaciones.ValidarTelefono(txtTelefono.Text, "Teléfono");
+                string telefono = txtTelefono.Text;
+
+                Validaciones.EsFlotanteValido(txtEstatura.Text, "Estatura");
+                float estatura = float.Parse(txtEstatura.Text);
+
+                Validaciones.EsEnteroValido(txtEdad.Text, "Edad");
+                int edad = int.Parse(txtEdad.Text);
+
+                
+                string genero = "";
+                if (rbMasculino.Checked)
+                    genero = "Masculino";
+                else if (rbFemenino.Checked)
+                    genero = "Femenino";
+                else
+                    throw new Exception("Debe seleccionar un género.");
+
+                
+                conexion conexion = new conexion();
+                bool logrado = conexion.Insertar(nombre, apellidos, telefono, estatura, edad, genero);
+
+                if (logrado)
+                {
+                    MessageBox.Show("Registro guardado con éxito", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (CampoVacioException ex)
+            {
+                MessageBox.Show(ex.Message, "Campo Vacío",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (EnteroInvalidoExcepcion ex)
+            {
+                MessageBox.Show(ex.Message, "Número Entero Inválido",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (FlotanteInvalidoException ex)
+            {
+                MessageBox.Show(ex.Message, "Número Decimal Inválido",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (TelefonoInvalidoException ex)
+            {
+                MessageBox.Show(ex.Message, "Teléfono Inválido",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (EntradaInvalidaException ex)
+            {
+                MessageBox.Show(ex.Message, "Entrada Inválida",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (validacionExcepcion ex)
+            {
+                MessageBox.Show(ex.Message, "Error de Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Validaciones.EntradaValida(txtBuscar.Text, "Nombre a buscar");
+                string nombreBuscar = txtBuscar.Text;
+
+                conexion conexion = new conexion();
+                DataTable resultado = conexion.Buscar(nombreBuscar);
+
+                if (resultado.Rows.Count > 0)
+                {
+                    dataMostrar.DataSource = resultado;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontraron registros con ese nombre",
+                        "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (EntradaInvalidaException ex)
+            {
+                MessageBox.Show(ex.Message, "Error de Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al buscar: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnBorrar_Click(object sender, EventArgs e)
@@ -96,25 +142,25 @@ namespace _4JLSC_YaelLopez_09
             dataMostrar.DataSource = null;
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+        private void btnMostrartodos_Click(object sender, EventArgs e)
         {
-            string nombreBuscar = "";
-            if (Validaciones.EntradaValida(txtBuscar.Text)) nombreBuscar=txtBuscar.Text ;
-            else
+            try
             {
-                MessageBox.Show("Ingresa un nombre valido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-
-            }
                 conexion conexion = new conexion();
-            DataTable resultado = conexion.Buscar(nombreBuscar);
-            if (resultado.Rows.Count > 0)
-            {
-                dataMostrar.DataSource = resultado;
+                DataTable resultado = conexion.Mostrartodos();
+
+                if (resultado.Rows.Count > 0)
+                    dataMostrar.DataSource = resultado;
+                else
+                {
+                    MessageBox.Show("No hay registros en la base de datos",
+                        "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("No se encontraron registros con ese nombre", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Error al mostrar registros: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

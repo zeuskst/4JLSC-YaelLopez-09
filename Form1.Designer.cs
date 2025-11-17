@@ -48,6 +48,7 @@
             this.txtBuscar = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
+            this.btnMostrartodos = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataMostrar)).BeginInit();
             this.SuspendLayout();
@@ -210,7 +211,7 @@
             this.dataMostrar.Name = "dataMostrar";
             this.dataMostrar.RowHeadersWidth = 51;
             this.dataMostrar.RowTemplate.Height = 24;
-            this.dataMostrar.Size = new System.Drawing.Size(552, 289);
+            this.dataMostrar.Size = new System.Drawing.Size(663, 305);
             this.dataMostrar.TabIndex = 13;
             // 
             // txtBuscar
@@ -243,12 +244,26 @@
             this.btnBuscar.UseVisualStyleBackColor = false;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
+            // btnMostrartodos
+            // 
+            this.btnMostrartodos.BackColor = System.Drawing.SystemColors.Menu;
+            this.btnMostrartodos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMostrartodos.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnMostrartodos.Location = new System.Drawing.Point(658, 538);
+            this.btnMostrartodos.Name = "btnMostrartodos";
+            this.btnMostrartodos.Size = new System.Drawing.Size(131, 60);
+            this.btnMostrartodos.TabIndex = 17;
+            this.btnMostrartodos.Text = "Mostrar todos";
+            this.btnMostrartodos.UseVisualStyleBackColor = false;
+            this.btnMostrartodos.Click += new System.EventHandler(this.btnMostrartodos_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(1066, 607);
+            this.ClientSize = new System.Drawing.Size(1163, 665);
+            this.Controls.Add(this.btnMostrartodos);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtBuscar);
@@ -269,7 +284,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Registro";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataMostrar)).EndInit();
@@ -299,6 +314,7 @@
         private System.Windows.Forms.TextBox txtBuscar;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnBuscar;
+        private System.Windows.Forms.Button btnMostrartodos;
     }
 }
 
